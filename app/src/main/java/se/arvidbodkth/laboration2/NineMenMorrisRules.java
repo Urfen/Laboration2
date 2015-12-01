@@ -162,7 +162,6 @@ public class NineMenMorrisRules {
             }else {
                 return false;
             }
-
         }
 
         if (gameplan[From] == color) {
