@@ -21,6 +21,7 @@ public class BoardView extends View {
     private Drawable gameboard;
     private ArrayList<BoardPieceView> gamePieces;
     private MainActivity controller;
+    private Paint currentTurn;
 
 
     private boolean inited = false;
@@ -28,6 +29,7 @@ public class BoardView extends View {
 
     public BoardView(Context context, MainActivity controller) {
         super(context);
+        currentTurn = new Paint();
         this.controller =  controller;
         // Get a representation of the image
         //Haje mattias
@@ -42,6 +44,8 @@ public class BoardView extends View {
         int stepV = getWidth()/7;
         int row = 4;
         int position = 1;
+        currentTurn.setColor(Color.RED
+        );
         for (int i = 0; i < 7; i++) {
             if(i == 3) row = 0;
             else row = 4;
@@ -99,10 +103,10 @@ public class BoardView extends View {
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize((gamePieces.get(8).getPx()- gamePieces.get(7).getPx())/4);
-        canvas.drawText("Turn:", getRight()/2, getBottom()/2, paint);
+        canvas.drawText("Turn:", 45*getRight()/100, 45*getBottom()/100, paint);
 
 
-        canvas.drawCircle((float) getRight() / 2, (float) getBottom() / 2, 40, paint);
+        canvas.drawCircle((float) getRight() / 2, (float) getBottom() / 2, 40, currentTurn);
         // controller.setTextView("TEST");
     }
 
@@ -124,6 +128,13 @@ public class BoardView extends View {
         return gamePieces.get(pos-1).getColor();
     }
 
+    public void setCurrentTurn(int color){
+        if(color == 1){
+            currentTurn.setColor(Color.BLUE);
+        }else {
+            currentTurn.setColor(Color.RED);
+        }
+    }
 
 
 }

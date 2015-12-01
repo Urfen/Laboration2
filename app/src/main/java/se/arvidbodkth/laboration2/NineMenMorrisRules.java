@@ -29,12 +29,14 @@ public class NineMenMorrisRules {
     public static final int BLUE_MARKER = 4;
     public static final int RED_MARKER = 5;
 
+    private boolean canRemove;
+
     public NineMenMorrisRules() {
         gameplan = new int[25]; // zeroes
-        bluemarker = 4;
-        redmarker = 4;
+        bluemarker = 9;
+        redmarker = 9;
         turn = RED_MOVES;
-
+        canRemove = false;
     }
 
     /**
@@ -54,8 +56,7 @@ public class NineMenMorrisRules {
                 }
 				/*else*/
                 if (gameplan[To] == EMPTY_SPACE) {
-                    boolean valid = isValidMove(To, From);
-                    if (valid == true) {
+                    if (isValidMove(To, From)) {
                         gameplan[To] = RED_MARKER;
                         clearSpace(From, RED_MARKER);
                         return true;
@@ -74,8 +75,7 @@ public class NineMenMorrisRules {
                     }
                 }
                 if (gameplan[To] == EMPTY_SPACE) {
-                    boolean valid = isValidMove(To, From);
-                    if (valid == true) {
+                    if (isValidMove(To, From)) {
                         gameplan[To] = BLUE_MARKER;
                         clearSpace(From, BLUE_MARKER);
                         return true;
@@ -154,6 +154,17 @@ public class NineMenMorrisRules {
      * Returns true if the marker where successfully removed
      */
     public boolean clearSpace(int From, int color) {
+        if(canRemove == true){
+            if(color != RED_MOVES && color != EMPTY_SPACE){
+                gameplan[From] = EMPTY_SPACE;
+                canRemove = false;
+                return true;
+            }else {
+                return false;
+            }
+
+        }
+
         if (gameplan[From] == color) {
             gameplan[From] = EMPTY_SPACE;
             return true;
@@ -261,6 +272,20 @@ public class NineMenMorrisRules {
         return false;
     }
 
+    public boolean getCanRemove() {
+        return canRemove;
+    }
+
+    public void setCanRemove(boolean canRemove) {
+        this.canRemove = canRemove;
+    }
+
+    public int getNoOfMarkers() {
+        if(turn == RED_MOVES) return redmarker;
+        else return bluemarker;
+    }
+
+
     public String toString(){
         String gameplanString = "";
         for (int i = 0; i < gameplan.length; i++) {
@@ -269,4 +294,10 @@ public class NineMenMorrisRules {
         }
         return gameplanString;
     }
+    public String turnToString(){
+        if(turn == RED_MOVES) return "Red";
+        else return "Blue";
+    }
+
+
 }

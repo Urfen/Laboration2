@@ -1,5 +1,6 @@
 package se.arvidbodkth.laboration2;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -18,42 +19,69 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         model = new NineMenMorrisRules();
-        view = new BoardView(this,this);
+        view = new BoardView(this, this);
         textView = (TextView) findViewById(R.id.textView);
         setContentView(view);
         from = 0;
     }
 
     public void placePiece(int pos) {
+
+        if (model.getCanRemove()) {
+            if (!model.clearSpace(pos, view.getColorOfPos(pos))) {
+                view.setCurrentTurn(model.getTurn());
+                showToast("Pick your opponents board piece!");
+                return;
+            }
+            view.paintEmptyPiece(pos, 0);
+            model.nextTurn();
+            view.setCurrentTurn(model.getTurn());
+            from = 0;
+            return;
+        }
+
         if (model.markersLeft(model.getTurn()) && view.getColorOfPos(pos) == 0) {
             from = 0;
             if (model.legalMove(pos, 0, model.getTurn())) {
-
+                if (model.remove(pos)) {
+                    model.setCanRemove(true);
+                }
                 view.paintEmptyPiece(pos, model.getTurn());
                 System.out.println("Placed marker on: " + pos);
-                model.nextTurn();
+                if (!model.getCanRemove()) {
+                    model.nextTurn();
                 }
-        }
-        else {
+                if (model.getNoOfMarkers() > 0)
+                    showToast(model.turnToString() + " has " + model.getNoOfMarkers() + " markers left to place");
+                view.setCurrentTurn(model.getTurn());
+            }
+        } else {
             if (from != 0 && view.getColorOfPos(pos) == 0) {
                 if (model.legalMove(pos, from, model.getTurn())) {
 
                     view.movePiece(pos, from, model.getTurn());
                     System.out.println("Moved a marker from: " + from + " to: " + pos);
-
-                    model.nextTurn();
+                    if (model.remove(pos)) {
+                        model.setCanRemove(true);
+                    }
+                    if (!model.getCanRemove()) {
+                        model.nextTurn();
+                    }
+                    view.setCurrentTurn(model.getTurn());
                     from = 0;
-                } else{
+                } else {
                     System.out.println("Failed to move marker from: " + from + " to: " + pos);
                     from = 0;
                 }
-            }
-            else if(from == 0 && view.getColorOfPos(pos) == model.getTurn()){
+            } else if (from == 0 && view.getColorOfPos(pos) == model.getTurn()) {
                 from = pos;
                 System.out.println("Saved: " + pos);
-            }else {
-                showToast("Wrong imput, try again.");
-                from = 0;
+            } else {
+                if (!model.getCanRemove()) {
+                    showToast("Wrong imput, try again.");
+                    from = 0;
+                }
+
             }
         }
 
