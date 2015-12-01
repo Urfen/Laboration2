@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         placeMarkerAndRemove(pos);
 
-        if(model.win(model.getMarkerColor())){
+        if(model.win(model.getMarkerColor(model.getLastTurn()))){
+            model.nextTurn();
             String msg = model.turnToString() + " player Wins!!!!!";
             Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
             toast.show();

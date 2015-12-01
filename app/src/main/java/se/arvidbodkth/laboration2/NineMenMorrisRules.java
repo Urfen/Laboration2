@@ -184,6 +184,7 @@ public class NineMenMorrisRules {
                 countMarker++;
             count++;
         }
+        System.out.println("countMarker" + countMarker);
         if (bluemarker <= 0 && redmarker <= 0 && countMarker < 3)
             return true;
         else
@@ -202,20 +203,25 @@ public class NineMenMorrisRules {
         else return redmarker;
     }
 
-    public int getTurn(){
-        return turn;
-    }
 
-    public int getMarkerColor(){
+    public int getMarkerColor(int turn){
         if(turn == BLUE_MOVES) return BLUE_MARKER;
         if(turn == RED_MOVES) return RED_MARKER;
         else return 0;
     }
 
+    public int getTurn(){
+        return turn;
+    }
+
     public void nextTurn(){
-        System.out.println("Next player...");
         if(turn == BLUE_MOVES) turn = RED_MOVES;
         else turn = BLUE_MOVES;
+    }
+
+    public int getLastTurn(){
+        if(turn == BLUE_MOVES) return RED_MOVES;
+        else return BLUE_MOVES;
     }
 
     public boolean markersLeft(int color){
