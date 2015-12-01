@@ -27,24 +27,48 @@ public class MainActivity extends AppCompatActivity {
 
     public void placePiece(int pos) {
 
+        if(checkIfPlayerLost()){
+            String msg = model.turnToString() + " player Wins!!!!!";
+            Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+            toast.show();
+        }
+        placeMarkerAndRemove(pos);
+        System.out.println(model.toString());
+    }
+
+       /* public void setTextView(String text){
+        textView.setText(text);
+        }*/
+
+    private void showToast(String msg) {
+        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public boolean checkIfRemovable(int pos){
         if (model.getCanRemove()) {
             if (!model.clearSpace(pos, view.getColorOfPos(pos))) {
                 view.setCurrentTurn(model.getTurn());
                 showToast("Pick your opponents board piece!");
-                return;
+                return false;
             }
             view.paintEmptyPiece(pos, 0);
             model.nextTurn();
             view.setCurrentTurn(model.getTurn());
             from = 0;
-            return;
+            return true;
         }
+        return false;
+    }
 
+    public void placeMarker(int pos){
         if (model.markersLeft(model.getTurn()) && view.getColorOfPos(pos) == 0) {
             from = 0;
             if (model.legalMove(pos, 0, model.getTurn())) {
                 if (model.remove(pos)) {
                     model.setCanRemove(true);
+                    view.paintEmptyPiece(pos, model.getTurn());
+                    return;
                 }
                 view.paintEmptyPiece(pos, model.getTurn());
                 System.out.println("Placed marker on: " + pos);
@@ -84,17 +108,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-
-
-        System.out.println(model.toString());
     }
 
-    private void showToast(String msg) {
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.show();
+    public boolean checkIfPlayerLost(){
+        if(model.win(model.getTurn())){
+            model.nextTurn();
+            return true;
+        } else{
+            return false;
+        }
     }
-
-   /* public void setTextView(String text){
-        textView.setText(text);
-    }*/
+    public void placeMarkerAndRemove(int pos){
+        if(checkIfRemovable(pos)) return;
+        placeMarker(pos);
+    }
 }

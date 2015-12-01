@@ -155,7 +155,7 @@ public class NineMenMorrisRules {
      */
     public boolean clearSpace(int From, int color) {
         if(canRemove == true){
-            if(color != RED_MOVES && color != EMPTY_SPACE){
+            if(color != turn && color != EMPTY_SPACE){
                 gameplan[From] = EMPTY_SPACE;
                 canRemove = false;
                 return true;
@@ -174,7 +174,7 @@ public class NineMenMorrisRules {
     }
 
     /**
-     *  Returns true if the selected player have less than three markerss left.
+     *  Returns true if the selected player have less than three markers left.
      */
     public boolean win(int color) {
         int countMarker = 0;
