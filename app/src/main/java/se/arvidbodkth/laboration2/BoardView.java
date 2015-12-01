@@ -27,6 +27,7 @@ public class BoardView extends View {
         super(context);
         this.controller =  controller;
         // Get a representation of the image
+        //Test
         Resources resources = context.getResources();
         gameboard = (Drawable) resources.getDrawable(R.drawable.gameboard);
         gamePieces = new ArrayList<>();
