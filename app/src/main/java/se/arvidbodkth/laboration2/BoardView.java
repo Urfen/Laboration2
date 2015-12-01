@@ -36,6 +36,9 @@ public class BoardView extends View {
         Resources resources = context.getResources();
         gameboard = (Drawable) resources.getDrawable(R.drawable.gameboard);
         gamePieces = new ArrayList<>();
+
+
+
     }
 
     private void init(){
@@ -91,10 +94,14 @@ public class BoardView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         gameboard.setBounds(getLeft(), getTop(), getRight(), getBottom());
         gameboard.draw(canvas);
 
-        if(!inited)init();
+        if(!inited){
+
+            init();
+        }
 
         for(BoardPieceView b: gamePieces){
             b.draw(canvas);
@@ -105,14 +112,7 @@ public class BoardView extends View {
         paint.setTextSize((gamePieces.get(8).getPx()- gamePieces.get(7).getPx())/4);
         canvas.drawText("Turn:", 45*getRight()/100, 45*getBottom()/100, paint);
 
-
         canvas.drawCircle((float) getRight() / 2, (float) getBottom() / 2, 40, currentTurn);
-        // controller.setTextView("TEST");
-    }
-
-    public void paintTurn(int Color){
-
-        //canvas.drawCircle((float) px + (ph - px) / 2, (float) py + (pw - py) / 2, 40, rectPaint);
     }
 
     public void paintEmptyPiece(int pos, int color){
