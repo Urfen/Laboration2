@@ -184,7 +184,6 @@ public class NineMenMorrisRules {
                 countMarker++;
             count++;
         }
-        System.out.println("countMarker" + countMarker);
         if (bluemarker <= 0 && redmarker <= 0 && countMarker < 3)
             return true;
         else
@@ -277,7 +276,7 @@ public class NineMenMorrisRules {
             case 19:
                 return (from == 11 || from == 20);
             case 20:
-                return (from == 22 || from == 23 || from == 17 || from == 24);
+                return (from == 19 || from == 23 || from == 17 || from == 21);
             case 21:
                 return (from == 14 || from == 20);
             case 22:
