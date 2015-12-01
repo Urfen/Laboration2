@@ -30,9 +30,9 @@ public class NineMenMorrisRules {
     public static final int RED_MARKER = 5;
 
     public NineMenMorrisRules() {
-        gameplan = new int[24]; // zeroes
-        bluemarker = 1;
-        redmarker = 1;
+        gameplan = new int[25]; // zeroes
+        bluemarker = 4;
+        redmarker = 4;
         turn = RED_MOVES;
 
     }
@@ -41,27 +41,23 @@ public class NineMenMorrisRules {
      * Returns true if a move is successful
      */
     public boolean legalMove(int To, int From, int color) {
-        To--;
-        From--;
+
+        System.out.println("To: " + To + " From: " + From  );
         if (color == turn) {
             if (turn == RED_MOVES) {
                 if (redmarker > 0) {
                     if (gameplan[To] == EMPTY_SPACE) {
                         gameplan[To] = RED_MARKER;
                         redmarker--;
-                        turn = BLUE_MOVES;
                         return true;
                     }
                 }
 				/*else*/
                 if (gameplan[To] == EMPTY_SPACE) {
-
-                    boolean valid = isValidMove(To+1, From+1);
-                    System.out.println(valid);
+                    boolean valid = isValidMove(To, From);
                     if (valid == true) {
                         gameplan[To] = RED_MARKER;
                         clearSpace(From, RED_MARKER);
-                        turn = BLUE_MOVES;
                         return true;
                     } else {
                         return false;
@@ -74,16 +70,14 @@ public class NineMenMorrisRules {
                     if (gameplan[To] == EMPTY_SPACE) {
                         gameplan[To] = BLUE_MARKER;
                         bluemarker--;
-                        turn = RED_MOVES;
                         return true;
                     }
                 }
                 if (gameplan[To] == EMPTY_SPACE) {
-                    boolean valid = isValidMove(To+1, From+1);
+                    boolean valid = isValidMove(To, From);
                     if (valid == true) {
                         gameplan[To] = BLUE_MARKER;
                         clearSpace(From, BLUE_MARKER);
-                        turn = RED_MOVES;
                         return true;
                     } else {
                         return false;
@@ -96,6 +90,7 @@ public class NineMenMorrisRules {
             return false;
         }
     }
+
 
     /**
      * Returns true if position "to" is part of three in a row.
@@ -193,6 +188,11 @@ public class NineMenMorrisRules {
 
     public int getTurn(){
         return turn;
+    }
+
+    public void nextTurn(){
+        if(turn == BLUE_MOVES) turn = RED_MOVES;
+        else turn = BLUE_MOVES;
     }
 
     public boolean markersLeft(int color){

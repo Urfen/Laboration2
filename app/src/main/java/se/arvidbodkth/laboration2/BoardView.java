@@ -3,6 +3,9 @@ package se.arvidbodkth.laboration2;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
@@ -93,10 +96,22 @@ public class BoardView extends View {
             b.draw(canvas);
         }
 
-       // controller.setTextView("TEST");
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize((gamePieces.get(8).getPx()- gamePieces.get(7).getPx())/4);
+        canvas.drawText("Turn:", getRight()/2, getBottom()/2, paint);
+
+
+        canvas.drawCircle((float) getRight() / 2, (float) getBottom() / 2, 40, paint);
+        // controller.setTextView("TEST");
     }
 
-    public void paintEmptyPice(int pos, int color){
+    public void paintTurn(int Color){
+
+        //canvas.drawCircle((float) px + (ph - px) / 2, (float) py + (pw - py) / 2, 40, rectPaint);
+    }
+
+    public void paintEmptyPiece(int pos, int color){
         gamePieces.get(pos-1).setColor(color);
     }
 

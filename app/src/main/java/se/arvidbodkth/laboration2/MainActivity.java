@@ -2,13 +2,8 @@ package se.arvidbodkth.laboration2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void placePiece(int pos) {
         if (model.markersLeft(model.getTurn()) && view.getColorOfPos(pos) == 0) {
+            from = 0;
             if (model.legalMove(pos, 0, model.getTurn())) {
 
-                view.paintEmptyPice(pos, model.getTurn());
+                view.paintEmptyPiece(pos, model.getTurn());
                 System.out.println("Placed marker on: " + pos);
-                from = 0;}
+                model.nextTurn();
+                }
         }
         else {
             if (from != 0 && view.getColorOfPos(pos) == 0) {
@@ -43,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
                     view.movePiece(pos, from, model.getTurn());
                     System.out.println("Moved a marker from: " + from + " to: " + pos);
+
+                    model.nextTurn();
                     from = 0;
                 } else{
                     System.out.println("Failed to move marker from: " + from + " to: " + pos);
@@ -57,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 from = 0;
             }
         }
+
+
         System.out.println(model.toString());
     }
 

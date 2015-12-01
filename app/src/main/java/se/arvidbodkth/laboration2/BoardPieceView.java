@@ -59,8 +59,8 @@ public class BoardPieceView extends View {
     public void setColor(int color){
         if(color == 0) rectPaint.setColor(Color.BLACK);
         //Reversed, the models is done.
-        if(color == 1) rectPaint.setColor(Color.RED);
-        if(color == 2) rectPaint.setColor(Color.BLUE);
+        if(color == 1) rectPaint.setColor(Color.BLUE);
+        if(color == 2) rectPaint.setColor(Color.RED);
         invalidate();
     }
 
