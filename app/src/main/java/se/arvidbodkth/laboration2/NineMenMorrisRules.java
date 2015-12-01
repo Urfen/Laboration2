@@ -179,7 +179,7 @@ public class NineMenMorrisRules {
     public boolean win(int color) {
         int countMarker = 0;
         int count = 0;
-        while (count < 23) {
+        while (count < 25) {
             if (gameplan[count] != EMPTY_SPACE && gameplan[count] != color)
                 countMarker++;
             count++;
@@ -213,6 +213,7 @@ public class NineMenMorrisRules {
     }
 
     public void nextTurn(){
+        System.out.println("Next player...");
         if(turn == BLUE_MOVES) turn = RED_MOVES;
         else turn = BLUE_MOVES;
     }
@@ -301,7 +302,7 @@ public class NineMenMorrisRules {
         String gameplanString = "";
         for (int i = 0; i < gameplan.length; i++) {
             gameplanString +=  gameplan[i];
-            if(i < 23) gameplanString += ", ";
+            if(i < 24) gameplanString += ", ";
         }
         return gameplanString;
     }

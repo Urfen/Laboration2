@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         placeMarkerAndRemove(pos);
 
-        if(checkIfPlayerLost()){
+        if(model.win(model.getMarkerColor())){
             String msg = model.turnToString() + " player Wins!!!!!";
             Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
             toast.show();
@@ -102,18 +102,11 @@ public class MainActivity extends AppCompatActivity {
                     showToast("Wrong imput, try again.");
                     from = 0;
                 }
+
             }
         }
     }
 
-    public boolean checkIfPlayerLost(){
-        if(model.win(model.getMarkerColor())){
-            return true;
-        } else{
-
-            return false;
-        }
-    }
     public void placeMarkerAndRemove(int pos){
         if(checkIfRemovable(pos)) return;
         placeMarker(pos);
