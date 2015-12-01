@@ -33,8 +33,8 @@ public class NineMenMorrisRules {
 
     public NineMenMorrisRules() {
         gameplan = new int[25]; // zeroes
-        bluemarker = 9;
-        redmarker = 9;
+        bluemarker = 3;
+        redmarker = 3;
         turn = RED_MOVES;
         canRemove = false;
     }
@@ -197,8 +197,19 @@ public class NineMenMorrisRules {
         return gameplan[From];
     }
 
+    public int getNumberOfMarkersLeft(){
+        if(turn == BLUE_MOVES) return redmarker;
+        else return redmarker;
+    }
+
     public int getTurn(){
         return turn;
+    }
+
+    public int getMarkerColor(){
+        if(turn == BLUE_MOVES) return BLUE_MARKER;
+        if(turn == RED_MOVES) return RED_MARKER;
+        else return 0;
     }
 
     public void nextTurn(){

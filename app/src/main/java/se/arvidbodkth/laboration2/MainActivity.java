@@ -27,18 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void placePiece(int pos) {
 
+        placeMarkerAndRemove(pos);
+
         if(checkIfPlayerLost()){
             String msg = model.turnToString() + " player Wins!!!!!";
             Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
             toast.show();
         }
-        placeMarkerAndRemove(pos);
         System.out.println(model.toString());
     }
-
-       /* public void setTextView(String text){
-        textView.setText(text);
-        }*/
 
     private void showToast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
@@ -105,16 +102,15 @@ public class MainActivity extends AppCompatActivity {
                     showToast("Wrong imput, try again.");
                     from = 0;
                 }
-
             }
         }
     }
 
     public boolean checkIfPlayerLost(){
-        if(model.win(model.getTurn())){
-            model.nextTurn();
+        if(model.win(model.getMarkerColor())){
             return true;
         } else{
+
             return false;
         }
     }
