@@ -45,18 +45,19 @@ public class NineMenMorrisRules {
         From--;
         if (color == turn) {
             if (turn == RED_MOVES) {
-                if (redmarker >= 0) {
+                if (redmarker > 0) {
                     if (gameplan[To] == EMPTY_SPACE) {
                         gameplan[To] = RED_MARKER;
                         redmarker--;
                         turn = BLUE_MOVES;
-                        System.out.println();
                         return true;
                     }
                 }
 				/*else*/
                 if (gameplan[To] == EMPTY_SPACE) {
-                    boolean valid = isValidMove(To, From);
+
+                    boolean valid = isValidMove(To+1, From+1);
+                    System.out.println(valid);
                     if (valid == true) {
                         gameplan[To] = RED_MARKER;
                         clearSpace(From, RED_MARKER);
@@ -69,7 +70,7 @@ public class NineMenMorrisRules {
                     return false;
                 }
             } else {
-                if (bluemarker >= 0) {
+                if (bluemarker > 0) {
                     if (gameplan[To] == EMPTY_SPACE) {
                         gameplan[To] = BLUE_MARKER;
                         bluemarker--;
@@ -78,7 +79,7 @@ public class NineMenMorrisRules {
                     }
                 }
                 if (gameplan[To] == EMPTY_SPACE) {
-                    boolean valid = isValidMove(To, From);
+                    boolean valid = isValidMove(To+1, From+1);
                     if (valid == true) {
                         gameplan[To] = BLUE_MARKER;
                         clearSpace(From, BLUE_MARKER);
@@ -161,8 +162,9 @@ public class NineMenMorrisRules {
         if (gameplan[From] == color) {
             gameplan[From] = EMPTY_SPACE;
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     /**
