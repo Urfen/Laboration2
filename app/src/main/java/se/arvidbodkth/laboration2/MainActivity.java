@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.textView);
         setContentView(view);
         from = 0;
+
     }
 
 

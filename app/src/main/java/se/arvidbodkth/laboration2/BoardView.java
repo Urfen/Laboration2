@@ -35,14 +35,13 @@ public class BoardView extends View {
         //Haje mattias
         Resources resources = context.getResources();
         gameboard = (Drawable) resources.getDrawable(R.drawable.gameboard);
+
         gamePieces = new ArrayList<>();
-
-
 
     }
 
-    private void init(){
-
+    private void init(Canvas canvas){
+        gameboard.setBounds(getLeft(), getTop(), getRight(), getBottom());
         int stepH = getHeight()/7;
         int stepV = getWidth()/7;
         int row = 4;
@@ -95,12 +94,12 @@ public class BoardView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        gameboard.setBounds(getLeft(), getTop(), getRight(), getBottom());
+
         gameboard.draw(canvas);
 
         if(!inited){
 
-            init();
+            init(canvas);
         }
 
         for(BoardPieceView b: gamePieces){
