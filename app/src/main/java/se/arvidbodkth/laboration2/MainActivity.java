@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        try{
+       /* try{
             State state = (State) model.readFile(this.getApplicationContext());
             model = state.getModel();
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             //showToast("ERROR FAILED TO READ FROM FILE!");
         } catch(ClassNotFoundException c){
             showToast("FILE NOT FOUND!");
-        }
+        }*/
     }
 
     @Override
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean checkIfRemovable(int pos){
         if (model.getCanRemove()) {
-            if (!model.clearSpace(pos, view.getColorOfPos(pos))) {
+            if (!model.clearSpace(pos, view.getColorOfPos(pos)) && !model.remove(pos)) {
                 view.setCurrentTurn(model.getTurn());
                 showToast("Pick your opponents board piece!");
                 return false;

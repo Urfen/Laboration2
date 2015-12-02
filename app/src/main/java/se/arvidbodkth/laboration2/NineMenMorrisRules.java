@@ -42,8 +42,8 @@ public class NineMenMorrisRules implements Serializable {
 
     public NineMenMorrisRules() {
         gameplan = new int[25]; // zeroes
-        bluemarker = 3;
-        redmarker = 3;
+        bluemarker = 5;
+        redmarker = 5;
         turn = RED_MOVES;
         canRemove = false;
     }
