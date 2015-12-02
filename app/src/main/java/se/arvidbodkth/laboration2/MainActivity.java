@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     private NineMenMorrisRules model;
@@ -22,15 +24,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-
         model = new NineMenMorrisRules();
         view = new BoardView(this, this);
         textView = (TextView) findViewById(R.id.textView);
         setContentView(view);
         from = 0;
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        State state = new State(model, view);
+
+        try{
+            model.writeFile(this.getApplicationContext(), state);
+        } catch(IOException e){
+            e.getStackTrace();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,6 +65,22 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            try{
+                State state = (State) model.readFile(this.getApplicationContext());
+
+                model = state.getModel();
+                view = state.getBoard();
+                view.rePaint();
+                view.initGame();
+
+            } catch(IOException e){
+                e.getStackTrace();
+                showToast("ERROR FAILED TO READ FROM FILE!");
+            } catch(ClassNotFoundException c){
+                c.getStackTrace();
+                showToast("FILE NOT FOUND!");
+            }
+
             return true;
         }
 

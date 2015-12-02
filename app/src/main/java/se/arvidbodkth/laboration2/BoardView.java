@@ -10,13 +10,14 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Arvid och Mattias on 2015-11-30.
  *
  */
-public class BoardView extends View {
+public class BoardView extends View implements Serializable{
 
     private Drawable gameboard;
     private ArrayList<BoardPieceView> gamePieces;
@@ -38,6 +39,14 @@ public class BoardView extends View {
 
         gamePieces = new ArrayList<>();
 
+    }
+
+    public void initGame(){
+        init();
+    }
+
+    public void rePaint(){
+        invalidate();
     }
 
     private void init(){

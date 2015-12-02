@@ -1,8 +1,17 @@
 package se.arvidbodkth.laboration2;
 
+import android.content.Context;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * @author Jonas Wåhslén, jwi@kth.se.
- * Revised by Anders Lindström, anderslm@kth.se
+ *         Revised by Anders Lindström, anderslm@kth.se
  */
 
 /*
@@ -17,7 +26,7 @@ package se.arvidbodkth.laboration2;
  *
  */
 
-public class NineMenMorrisRules {
+public class NineMenMorrisRules implements Serializable {
     private int[] gameplan;
     private int bluemarker, redmarker;
     private int turn; // player in turn
@@ -44,7 +53,7 @@ public class NineMenMorrisRules {
      */
     public boolean legalMove(int To, int From, int color) {
 
-        System.out.println("To: " + To + " From: " + From  );
+        System.out.println("To: " + To + " From: " + From);
         if (color == turn) {
             if (turn == RED_MOVES) {
                 if (redmarker > 0) {
@@ -54,7 +63,7 @@ public class NineMenMorrisRules {
                         return true;
                     }
                 }
-				/*else*/
+                /*else*/
                 if (gameplan[To] == EMPTY_SPACE) {
                     if (isValidMove(To, From)) {
                         gameplan[To] = RED_MARKER;
@@ -154,12 +163,12 @@ public class NineMenMorrisRules {
      * Returns true if the marker where successfully removed
      */
     public boolean clearSpace(int From, int color) {
-        if(canRemove == true){
-            if(color != turn && color != EMPTY_SPACE){
+        if (canRemove == true) {
+            if (color != turn && color != EMPTY_SPACE) {
                 gameplan[From] = EMPTY_SPACE;
                 canRemove = false;
                 return true;
-            }else {
+            } else {
                 return false;
             }
         }
@@ -173,7 +182,7 @@ public class NineMenMorrisRules {
     }
 
     /**
-     *  Returns true if the selected player have less than three markers left.
+     * Returns true if the selected player have less than three markers left.
      */
     public boolean win(int color) {
         int countMarker = 0;
@@ -196,35 +205,35 @@ public class NineMenMorrisRules {
         return gameplan[From];
     }
 
-    public int getNumberOfMarkersLeft(){
-        if(turn == BLUE_MOVES) return redmarker;
+    public int getNumberOfMarkersLeft() {
+        if (turn == BLUE_MOVES) return redmarker;
         else return redmarker;
     }
 
 
-    public int getMarkerColor(int turn){
-        if(turn == BLUE_MOVES) return BLUE_MARKER;
-        if(turn == RED_MOVES) return RED_MARKER;
+    public int getMarkerColor(int turn) {
+        if (turn == BLUE_MOVES) return BLUE_MARKER;
+        if (turn == RED_MOVES) return RED_MARKER;
         else return 0;
     }
 
-    public int getTurn(){
+    public int getTurn() {
         return turn;
     }
 
-    public void nextTurn(){
-        if(turn == BLUE_MOVES) turn = RED_MOVES;
+    public void nextTurn() {
+        if (turn == BLUE_MOVES) turn = RED_MOVES;
         else turn = BLUE_MOVES;
     }
 
-    public int getLastTurn(){
-        if(turn == BLUE_MOVES) return RED_MOVES;
+    public int getLastTurn() {
+        if (turn == BLUE_MOVES) return RED_MOVES;
         else return BLUE_MOVES;
     }
 
-    public boolean markersLeft(int color){
-        if(color == BLUE_MOVES && bluemarker > 0) return true;
-        if(color == RED_MOVES && redmarker > 0) return true;
+    public boolean markersLeft(int color) {
+        if (color == BLUE_MOVES && bluemarker > 0) return true;
+        if (color == RED_MOVES && redmarker > 0) return true;
         return false;
     }
 
@@ -233,7 +242,7 @@ public class NineMenMorrisRules {
      */
     private boolean isValidMove(int to, int from) {
 
-        if(this.gameplan[to] != EMPTY_SPACE) return false;
+        if (this.gameplan[to] != EMPTY_SPACE) return false;
 
         switch (to) {
             case 1:
@@ -257,7 +266,7 @@ public class NineMenMorrisRules {
             case 10:
                 return (from == 1 || from == 22 || from == 11);
             case 11:
-                return (from == 4 || from == 12 || from == 19|| from == 10);
+                return (from == 4 || from == 12 || from == 19 || from == 10);
             case 12:
                 return (from == 7 || from == 16 || from == 11);
             case 13:
@@ -265,7 +274,7 @@ public class NineMenMorrisRules {
             case 14:
                 return (from == 21 || from == 6 || from == 15 || from == 13);
             case 15:
-                return (from == 14 || from == 3 ||from == 24);
+                return (from == 14 || from == 3 || from == 24);
             case 16:
                 return (from == 12 || from == 17);
             case 17:
@@ -297,22 +306,43 @@ public class NineMenMorrisRules {
     }
 
     public int getNoOfMarkers() {
-        if(turn == RED_MOVES) return redmarker;
+        if (turn == RED_MOVES) return redmarker;
         else return bluemarker;
     }
 
 
-    public String toString(){
+    public String toString() {
         String gameplanString = "";
         for (int i = 0; i < gameplan.length; i++) {
-            gameplanString +=  gameplan[i];
-            if(i < 24) gameplanString += ", ";
+            gameplanString += gameplan[i];
+            if (i < 24) gameplanString += ", ";
         }
         return gameplanString;
     }
-    public String turnToString(){
-        if(turn == RED_MOVES) return "Red";
+
+    public String turnToString() {
+        if (turn == RED_MOVES) return "Red";
         else return "Blue";
+    }
+
+
+    //Attempts to read the saved file
+    public Object readFile(Context context) throws IOException, ClassNotFoundException {
+        FileInputStream fileIn = context.openFileInput("state");
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        Object state = (State) in.readObject();
+
+        return state;
+    }
+
+    //Attempts to write a file
+    public void writeFile(Context context, State state) throws IOException {
+
+        FileOutputStream fileOut = context.openFileOutput("state", Context.MODE_PRIVATE);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(state);
+        out.close();
+        fileOut.close();
     }
 
 
