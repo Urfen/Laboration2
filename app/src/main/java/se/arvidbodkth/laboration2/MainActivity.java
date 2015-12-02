@@ -145,11 +145,14 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean checkIfRemovable(int pos){
         if (model.getCanRemove()) {
-            if (!model.clearSpace(pos, view.getColorOfPos(pos)) && !model.remove(pos)) {
+            if (!model.clearSpace(pos, view.getColorOfPos(pos))) {
                 view.setCurrentTurn(model.getTurn());
-                showToast("Pick your opponents board piece!");
-                return false;
+                showToast("Wrong pick!");
+                //model.setCanRemove(true);
+                return true;
             }
+            showToast("!!!!! " + model.remove(pos));
+            System.out.println();
             view.paintEmptyPiece(pos, 0);
             model.nextTurn();
             view.setCurrentTurn(model.getTurn());
@@ -209,7 +212,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void placeMarkerAndRemove(int pos){
-        if(checkIfRemovable(pos)) return;
+        //boolean flag = true;
+
+        // while(flag){
+            if(checkIfRemovable(pos)) return;
+            //flag = false;
+        //}
         placeMarker(pos);
     }
 }

@@ -105,57 +105,58 @@ public class NineMenMorrisRules implements Serializable {
      * Returns true if position "to" is part of three in a row.
      */
     public boolean remove(int to) {
+        boolean remove = false;
 
         if ((to == 7 || to == 8 || to == 9) && gameplan[7] == gameplan[8]
                 && gameplan[8] == gameplan[9]) {
-            return true;
+            remove = true;
         } else if ((to == 4 || to == 5 || to == 6)
                 && gameplan[4] == gameplan[5] && gameplan[5] == gameplan[6]) {
-            return true;
+            remove = true;
         } else if ((to == 1 || to == 2 || to == 3)
                 && gameplan[1] == gameplan[2] && gameplan[2] == gameplan[3]) {
-            return true;
+            remove = true;
         } else if ((to == 9 || to == 13 || to == 18)
                 && gameplan[9] == gameplan[13] && gameplan[13] == gameplan[18]) {
-            return true;
+            remove = true;
         } else if ((to == 6 || to == 14 || to == 21)
                 && gameplan[6] == gameplan[14] && gameplan[14] == gameplan[21]) {
-            return true;
+            remove = true;
         } else if ((to == 3 || to == 15 || to == 24)
                 && gameplan[3] == gameplan[15] && gameplan[15] == gameplan[24]) {
-            return true;
+            remove = true;
         } else if ((to == 16 || to == 17 || to == 18)
                 && gameplan[16] == gameplan[17] && gameplan[17] == gameplan[18]) {
-            return true;
+            remove = true;
         } else if ((to == 19 || to == 20 || to == 21)
                 && gameplan[19] == gameplan[20] && gameplan[20] == gameplan[21]) {
-            return true;
+            remove = true;
         } else if ((to == 22 || to == 23 || to == 24)
                 && gameplan[22] == gameplan[23] && gameplan[23] == gameplan[24]) {
-            return true;
+            remove = true;
         } else if ((to == 7 || to == 12 || to == 16)
                 && gameplan[7] == gameplan[12] && gameplan[12] == gameplan[16]) {
-            return true;
+            remove = true;
         } else if ((to == 4 || to == 11 || to == 19)
                 && gameplan[4] == gameplan[11] && gameplan[11] == gameplan[19]) {
-            return true;
+            remove = true;
         } else if ((to == 1 || to == 10 || to == 22)
                 && gameplan[1] == gameplan[10] && gameplan[10] == gameplan[22]) {
-            return true;
+            remove = true;
         } else if ((to == 12 || to == 11 || to == 10)
                 && gameplan[12] == gameplan[11] && gameplan[11] == gameplan[10]) {
-            return true;
+            remove = true;
         } else if ((to == 2 || to == 5 || to == 8)
                 && gameplan[2] == gameplan[5] && gameplan[5] == gameplan[8]) {
-            return true;
+            remove = true;
         } else if ((to == 13 || to == 14 || to == 15)
                 && gameplan[13] == gameplan[14] && gameplan[14] == gameplan[15]) {
-            return true;
+            remove = true;
         } else if ((to == 17 || to == 20 || to == 23)
                 && gameplan[17] == gameplan[20] && gameplan[20] == gameplan[23]) {
-            return true;
+            remove = true;
         }
-        return false;
+        return remove;
     }
 
     /**
@@ -164,7 +165,7 @@ public class NineMenMorrisRules implements Serializable {
      */
     public boolean clearSpace(int From, int color) {
         if (canRemove == true) {
-            if (color != turn && color != EMPTY_SPACE) {
+            if (color != turn && color != EMPTY_SPACE && !remove(From)) {
                 gameplan[From] = EMPTY_SPACE;
                 canRemove = false;
                 return true;
@@ -333,8 +334,7 @@ public class NineMenMorrisRules implements Serializable {
     public Object readFile(Context context) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = context.openFileInput("state");
         ObjectInputStream in = new ObjectInputStream(fileIn);
-        Object state = (State) in.readObject();
-
+        Object state = in.readObject();
         return state;
     }
 
