@@ -198,6 +198,9 @@ public class NineMenMorrisRules implements Serializable {
             return false;
     }
 
+    public int[] getBoard(){
+        return gameplan;
+    }
     /**
      * Returns EMPTY_SPACE = 0 BLUE_MARKER = 4 READ_MARKER = 5
      */

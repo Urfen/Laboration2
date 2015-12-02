@@ -34,19 +34,35 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        /*try{
+            State state = (State) model.readFile(this.getApplicationContext());
 
+
+            model = state.getModel();
+            view.initGame(model.getBoard());
+            view.rePaint();
+
+            showToast("LOAD");
+        } catch(IOException e){
+            e.printStackTrace();
+            //showToast("ERROR FAILED TO READ FROM FILE!");
+        } catch(ClassNotFoundException c){
+            showToast("FILE NOT FOUND!");
+        }*/
     }
     @Override
     protected void onDestroy(){
         super.onDestroy();
 
-        State state = new State(model, view);
+       /* State state = new State(model, view);
 
         try{
             model.writeFile(this.getApplicationContext(), state);
+            showToast("SAVED");
         } catch(IOException e){
-            e.getStackTrace();
-        }
+            e.printStackTrace();
+            showToast("FAILED TO WRITE TO FILE!");
+        }*/
     }
 
     @Override
@@ -64,23 +80,36 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_load ) {
+
+            State state = new State(model, view);
+
+            try{
+                model.writeFile(this.getApplicationContext(), state);
+            } catch(IOException e){
+                e.printStackTrace();
+                showToast("FAILED TO WRITE TO FILE!");
+            }
+            return true;
+        }
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_save) {
             try{
                 State state = (State) model.readFile(this.getApplicationContext());
 
-                model = state.getModel();
-                view = state.getBoard();
-                view.rePaint();
-                view.initGame();
 
+                model = state.getModel();
+                view.initGame(model.getBoard());
+                view.rePaint();
+
+                showToast("LOAD");
             } catch(IOException e){
-                e.getStackTrace();
-                showToast("ERROR FAILED TO READ FROM FILE!");
+                e.printStackTrace();
+                //showToast("ERROR FAILED TO READ FROM FILE!");
             } catch(ClassNotFoundException c){
-                c.getStackTrace();
                 showToast("FILE NOT FOUND!");
             }
-
             return true;
         }
 

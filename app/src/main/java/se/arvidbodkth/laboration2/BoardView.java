@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by Arvid och Mattias on 2015-11-30.
  *
  */
-public class BoardView extends View implements Serializable{
+public class BoardView extends View {
 
     private Drawable gameboard;
     private ArrayList<BoardPieceView> gamePieces;
@@ -41,43 +41,52 @@ public class BoardView extends View implements Serializable{
 
     }
 
-    public void initGame(){
-        init();
+    public void initGame(int[] gameState){
+        init(gameState);
     }
 
     public void rePaint(){
         invalidate();
     }
 
-    private void init(){
+    private void init(int[] gameState){
 
-        int stepH = getHeight()/7;
-        int stepV = getWidth()/7;
-        int row = 4;
-        int position = 1;
-        currentTurn.setColor(Color.RED
-        );
-        for (int i = 0; i < 7; i++) {
-            if(i == 3) row = 0;
-            else row = 4;
+        if(gameState == null){
+            int stepH = getHeight()/7;
+            int stepV = getWidth()/7;
+            int row = 4;
+            int position = 1;
+            currentTurn.setColor(Color.RED
+            );
+            for (int i = 0; i < 7; i++) {
+                if(i == 3) row = 0;
+                else row = 4;
 
-            for (int k = 0; k < 7-row; k++) {
+                for (int k = 0; k < 7-row; k++) {
 
-                if(i == 0 || i == 6){
-                    gamePieces.add(new BoardPieceView(super.getContext(),k*3*stepV, i*stepH,  (k*3*stepV+stepV) , (i*stepH+stepH),position++));
-                }
-                if(i == 1 || i == 5){
-                    gamePieces.add(new BoardPieceView(super.getContext(), (k * 2 + 1) * stepV, i * stepH, ((k * 2 + 1) * stepV + stepV), (i * stepH + stepH),position++));
-                }
-                if(i == 2 || i == 4){
-                    gamePieces.add(new BoardPieceView(super.getContext(), (k+2)*stepV, i*stepH,  ((k+2)*stepV+stepV) , (i*stepH+stepH),position++));
-                }
-                if(i == 3) {
-                    if(k != 3) gamePieces.add(new BoardPieceView(super.getContext(), (k)*stepV, i*stepH,  ((k)*stepV+stepV) , (i*stepH+stepH),position++));
+                    if(i == 0 || i == 6){
+                        gamePieces.add(new BoardPieceView(super.getContext(),k*3*stepV, i*stepH,  (k*3*stepV+stepV) , (i*stepH+stepH),position++));
+                    }
+                    if(i == 1 || i == 5){
+                        gamePieces.add(new BoardPieceView(super.getContext(), (k * 2 + 1) * stepV, i * stepH, ((k * 2 + 1) * stepV + stepV), (i * stepH + stepH),position++));
+                    }
+                    if(i == 2 || i == 4){
+                        gamePieces.add(new BoardPieceView(super.getContext(), (k+2)*stepV, i*stepH,  ((k+2)*stepV+stepV) , (i*stepH+stepH),position++));
+                    }
+                    if(i == 3) {
+                        if(k != 3) gamePieces.add(new BoardPieceView(super.getContext(), (k)*stepV, i*stepH,  ((k)*stepV+stepV) , (i*stepH+stepH),position++));
+                    }
                 }
             }
+            inited = true;
+        } else{
+            for(int i = 0;i<gamePieces.size();i++){
+                gamePieces.get(i).setColor(gameState[i]);
+            }
+
+            inited = true;
         }
-        inited = true;
+
     }
 
     @Override
@@ -108,7 +117,7 @@ public class BoardView extends View implements Serializable{
 
         if(!inited){
 
-            init();
+            init(null);
         }
 
         for(BoardPieceView b: gamePieces){

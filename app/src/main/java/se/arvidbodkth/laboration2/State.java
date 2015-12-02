@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 /**
  * Created by Arvid on 2015-12-02.
+ *
  */
-public class State implements Serializable{
+public class State implements Serializable {
 
     private NineMenMorrisRules model;
-    private BoardView board;
 
-    public State(NineMenMorrisRules model, BoardView board){
+
+    public State(NineMenMorrisRules model, BoardView board) {
         this.model = model;
-        this.board = board;
     }
 
     public NineMenMorrisRules getModel() {
@@ -25,11 +25,5 @@ public class State implements Serializable{
         this.model = model;
     }
 
-    public BoardView getBoard() {
-        return board;
-    }
-
-    public void setBoard(BoardView board) {
-        this.board = board;
-    }
 }
+
