@@ -39,6 +39,10 @@ public class BoardView extends View {
 
         gamePieces = new ArrayList<>();
 
+        //init(null);
+
+        invalidate();
+
     }
 
     public void initGame(int[] gameState){
@@ -54,10 +58,10 @@ public class BoardView extends View {
         if(gameState == null){
             int stepH = getHeight()/7;
             int stepV = getWidth()/7;
+            System.out.println("stepH: "+stepH);
             int row = 4;
             int position = 1;
-            currentTurn.setColor(Color.RED
-            );
+            currentTurn.setColor(Color.RED);
             for (int i = 0; i < 7; i++) {
                 if(i == 3) row = 0;
                 else row = 4;
@@ -78,12 +82,6 @@ public class BoardView extends View {
                     }
                 }
             }
-            inited = true;
-        } else{
-            for(int i = 0;i<gamePieces.size();i++){
-                gamePieces.get(i).setColor(gameState[i]);
-            }
-
             inited = true;
         }
 
@@ -153,5 +151,11 @@ public class BoardView extends View {
         }
     }
 
+    public ArrayList<BoardPieceView> getGamePieces() {
+        return gamePieces;
+    }
 
+    public void setGamePieces(ArrayList<BoardPieceView> gamePieces) {
+        this.gamePieces = gamePieces;
+    }
 }

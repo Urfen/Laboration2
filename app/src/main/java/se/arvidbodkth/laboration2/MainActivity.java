@@ -34,13 +34,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        /*try{
+        try{
             State state = (State) model.readFile(this.getApplicationContext());
-
-
             model = state.getModel();
-            view.initGame(model.getBoard());
-            view.rePaint();
+
+            initGameFromFile(model.getBoard());
 
             showToast("LOAD");
         } catch(IOException e){
@@ -48,21 +46,22 @@ public class MainActivity extends AppCompatActivity {
             //showToast("ERROR FAILED TO READ FROM FILE!");
         } catch(ClassNotFoundException c){
             showToast("FILE NOT FOUND!");
-        }*/
+        }
     }
+
     @Override
     protected void onDestroy(){
         super.onDestroy();
 
-       /* State state = new State(model, view);
+        State state = new State(model);
 
         try{
             model.writeFile(this.getApplicationContext(), state);
-            showToast("SAVED");
+            showToast("Saved");
         } catch(IOException e){
             e.printStackTrace();
             showToast("FAILED TO WRITE TO FILE!");
-        }*/
+        }
     }
 
     @Override
@@ -81,12 +80,10 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save ) {
-
             State state = new State(model);
-
             try{
                 model.writeFile(this.getApplicationContext(), state);
-
+                showToast("Saved");
             } catch(IOException e){
                 e.printStackTrace();
                 showToast("FAILED TO WRITE TO FILE!");
@@ -98,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_load) {
             try{
                 State state = (State) model.readFile(this.getApplicationContext());
-
-
                 model = state.getModel();
                 view.initGame(model.getBoard());
                 view.rePaint();
@@ -114,9 +109,21 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_restart) {
+            view.initGame(null);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
+    private void initGameFromFile(int[] gameState){
+        for(int i = 1;i<view.getGamePieces().size()-1;i++){
+            System.out.println("gameState " + gameState[i] + " i: " + i);
+            view.getGamePieces().get(i).setColor(gameState[i+1]);
+        }
+    }
 
     public void placePiece(int pos) {
 
