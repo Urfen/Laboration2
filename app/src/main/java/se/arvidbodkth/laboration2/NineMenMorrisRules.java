@@ -345,6 +345,7 @@ public class NineMenMorrisRules implements Serializable {
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(state);
         out.close();
+        System.out.println(state.getModel().getBoard().toString());
         fileOut.close();
     }
 

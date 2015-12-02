@@ -82,10 +82,11 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save ) {
 
-            State state = new State(model, view);
+            State state = new State(model);
 
             try{
                 model.writeFile(this.getApplicationContext(), state);
+
             } catch(IOException e){
                 e.printStackTrace();
                 showToast("FAILED TO WRITE TO FILE!");

@@ -13,7 +13,7 @@ public class State implements Serializable {
     private NineMenMorrisRules model;
 
 
-    public State(NineMenMorrisRules model, BoardView board) {
+    public State(NineMenMorrisRules model) {
         this.model = model;
     }
 

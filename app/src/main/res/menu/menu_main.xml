@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="se.arvidbodkth.myapplication.MainActivity">
     <item
-        android:id="@+id/action_load"
+        android:id="@+id/action_save"
         android:orderInCategory="100"
         android:title="Save"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_save"
+        android:id="@+id/action_load"
         android:orderInCategory="100"
         android:title="Load"
         app:showAsAction="never" />
