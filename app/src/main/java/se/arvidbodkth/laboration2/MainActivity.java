@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_load ) {
+        if (id == R.id.action_save ) {
 
             State state = new State(model, view);
 
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_save) {
+        if (id == R.id.action_load) {
             try{
                 State state = (State) model.readFile(this.getApplicationContext());
 
