@@ -40,8 +40,8 @@ public class BoardView extends View {
 
     }
 
-    private void init(Canvas canvas){
-        gameboard.setBounds(getLeft(), getTop(), getRight(), getBottom());
+    private void init(){
+
         int stepH = getHeight()/7;
         int stepV = getWidth()/7;
         int row = 4;
@@ -94,12 +94,12 @@ public class BoardView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
+        gameboard.setBounds(getLeft(), getTop(), getRight(), getBottom());
         gameboard.draw(canvas);
 
         if(!inited){
 
-            init(canvas);
+            init();
         }
 
         for(BoardPieceView b: gamePieces){
