@@ -55,9 +55,9 @@ public class BoardPieceView extends View {
     }
 
     /**
-     *
-     * @param event
-     * @return
+     * Executed when the view is touched.
+     * @param event the event.
+     * @return of the event is handled.
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -69,12 +69,20 @@ public class BoardPieceView extends View {
         return false;
     }
 
+    /**
+     * Executed when created and invalidates is called.
+     * @param canvas the canvas.
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawCircle((float) px + (ph - px) / 2, (float) py + (pw - py) / 2,(pw - py)/5, rectPaint);
     }
 
+    /**
+     * Sets the color of a piece.
+     * @param color the color to set.
+     */
     public void setColor(int color){
         if(color == 0) rectPaint.setColor(Color.BLACK);
         //Reversed, the models is done.
@@ -83,6 +91,10 @@ public class BoardPieceView extends View {
         invalidate();
     }
 
+    /**
+     * Get the color of tha piece.
+     * @return color.
+     */
     public int getColor(){
         if(rectPaint.getColor() == Color.BLACK) return 0;
         if(rectPaint.getColor() == Color.BLUE) return 1;
@@ -90,12 +102,26 @@ public class BoardPieceView extends View {
         else return 0;
     }
 
+    /**
+     * Return if the fiven x,y is withing the piece.
+     * @param x coordinate of event.
+     * @param y coordinate of event.
+     * @return if the piece was hit.
+     */
     public boolean isHit(int x, int y){
         return rect.contains(x,y);
     }
 
+    /**
+     * Get the position number.
+     * @return position.
+     */
     public int getPos(){ return pos;}
 
+    /**
+     * Get the x coordinate of the piece.
+     * @return x coordinate.
+     */
     public int getPx() {
         return px;
     }
