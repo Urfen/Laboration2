@@ -169,11 +169,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param pos
+     * Make board piece actions based on the circumstances, whether it's the starting phase, mill phase
+     * or move piece position phase.
+     * @param pos coordinates of the piece position.
      */
     public void placePiece(int pos) {
 
+        //checks the players phase
         placeMarkerAndRemove(pos);
 
         if (model.win(model.getMarkerColor(model.getLastTurn()))) {
@@ -186,12 +188,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param pos
-     * @return
+     *Check whether the player has gotten a mill. Based on the position the player has chosen, checks
+     * whether the position belongs is correct (not part of a mill, not players own color or a blank space)
+     * a feedback is given
+     * @param pos position of the game piece
+     * @return whether the player succesfully removed a game piece.
      */
     public boolean checkIfRemovable(int pos) {
+
+        //Check whether the player is allowed to remove
         if (model.getCanRemove()) {
+            //check if place is not part of mill/blank space/players own color
             if (!model.clearSpace(pos, view.getColorOfPos(pos))) {
                 view.setCurrentTurn(model.getTurn());
                 showToast("Wrong pick!");
@@ -208,13 +215,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Game piece interaction based on the current status of game pieces.
      *
-     * @param pos
+     * @param pos position of the game piece
      */
     public void placeMarker(int pos) {
+        //Checks whether the player has pieces left to place freely on the game board
+        // and the position is free.
         if (model.markersLeft(model.getTurn()) && view.getColorOfPos(pos) == 0) {
             from = 0;
+            //Check whether the move is legal
             if (model.legalMove(pos, 0, model.getTurn())) {
+                //Check whether the placed game piece constructs a mill in the starting phase of
+                //the game where the players place the 9 first pieces.
                 if (model.remove(pos)) {
                     model.setCanRemove(true);
                     view.paintEmptyPiece(pos, model.getTurn());
@@ -230,14 +243,19 @@ public class MainActivity extends AppCompatActivity {
                 view.setCurrentTurn(model.getTurn());
             }
         } else {
+            //Checks whether the player has a piece selected and wants to move it.
             if (from != 0 && view.getColorOfPos(pos) == 0) {
+                //Check whether the move is a legal one.
                 if (model.legalMove(pos, from, model.getTurn())) {
 
                     view.movePiece(pos, from, model.getTurn());
                     System.out.println("Moved a marker from: " + from + " to: " + pos);
+                    //If the move becomes a part of a mill, flag that the player can remove a game piece
+                    //from the opponent.
                     if (model.remove(pos)) {
                         model.setCanRemove(true);
                     }
+                    //If the piece is not part of a mill, flag to change the turn
                     if (!model.getCanRemove()) {
                         model.nextTurn();
                     }
@@ -247,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("Failed to move marker from: " + from + " to: " + pos);
                     from = 0;
                 }
+                //Checks whether the player selects a piece to move.
             } else if (from == 0 && view.getColorOfPos(pos) == model.getTurn()) {
                 from = pos;
                 System.out.println("Saved: " + pos);
@@ -261,8 +280,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param pos
+     *Check whether the player has to remove a game piece or place a marker
+     * @param pos position of the game piece
      */
     public void placeMarkerAndRemove(int pos) {
         if (checkIfRemovable(pos)) return;

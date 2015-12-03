@@ -59,7 +59,7 @@ public class NineMenMorrisRules implements Serializable {
      */
     public boolean legalMove(int To, int From, int color) {
 
-        System.out.println("To: " + To + " From: " + From);
+        //System.out.println("To: " + To + " From: " + From);
         if (color == turn) {
             if (turn == RED_MOVES) {
                 if (redmarker > 0) {
