@@ -30,33 +30,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       try{
+        try {
             State state = (State) model.readFile(this.getApplicationContext());
             model = state.getModel();
-
             initGameFromFile(model.getBoard());
-
-           view.invalidate();
-
-            showToast("LOAD");
-        } catch(IOException e){
+            view.invalidate();
+        } catch (IOException e) {
             e.printStackTrace();
             //showToast("ERROR FAILED TO READ FROM FILE!");
-        } catch(ClassNotFoundException c){
+        } catch (ClassNotFoundException c) {
             showToast("FILE NOT FOUND!");
         }
     }
 
     @Override
-    protected void onDestroy(){
-        super.onDestroy();
-
+    protected void onStop() {
+        super.onStop();
         State state = new State(model);
-
-        try{
+        try {
             model.writeFile(this.getApplicationContext(), state);
-            showToast("Saved");
-        } catch(IOException e){
+        } catch (IOException e) {
+            e.printStackTrace();
+            showToast("FAILED TO WRITE TO FILE!");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        State state = new State(model);
+        try {
+            model.writeFile(this.getApplicationContext(), state);
+        } catch (IOException e) {
             e.printStackTrace();
             showToast("FAILED TO WRITE TO FILE!");
         }
@@ -89,18 +94,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initGameFromFile(int[] gameState){
-        for(int i = 1;i<view.getGamePieces().size()-1;i++){
+    private void initGameFromFile(int[] gameState) {
+        for (int i = 1; i < view.getGamePieces().size() - 1; i++) {
             System.out.println("gameState " + gameState[i] + " i: " + i);
-            view.getGamePieces().get(i).setColor(gameState[i+1]);
+            view.getGamePieces().get(i).setColor(gameState[i + 1]);
         }
     }
 
-    public int getColorOfPos(int pos){
+    public int getColorOfPos(int pos) {
         return model.getColorOfPos(pos);
     }
 
-    public int getTurn(){
+    public int getTurn() {
         return model.getMarkerColor(model.getTurn());
     }
 
@@ -108,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         placeMarkerAndRemove(pos);
 
-        if(model.win(model.getMarkerColor(model.getLastTurn()))){
+        if (model.win(model.getMarkerColor(model.getLastTurn()))) {
             model.nextTurn();
             String msg = model.turnToString() + " player Wins!!!!!";
             Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public boolean checkIfRemovable(int pos){
+    public boolean checkIfRemovable(int pos) {
         if (model.getCanRemove()) {
             if (!model.clearSpace(pos, view.getColorOfPos(pos))) {
                 view.setCurrentTurn(model.getTurn());
@@ -139,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public void placeMarker(int pos){
+    public void placeMarker(int pos) {
         if (model.markersLeft(model.getTurn()) && view.getColorOfPos(pos) == 0) {
             from = 0;
             if (model.legalMove(pos, 0, model.getTurn())) {
@@ -188,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void placeMarkerAndRemove(int pos){
-        if(checkIfRemovable(pos)) return;
+    public void placeMarkerAndRemove(int pos) {
+        if (checkIfRemovable(pos)) return;
         placeMarker(pos);
     }
 }

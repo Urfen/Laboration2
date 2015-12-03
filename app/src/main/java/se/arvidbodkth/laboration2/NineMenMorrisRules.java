@@ -42,8 +42,8 @@ public class NineMenMorrisRules implements Serializable {
 
     public NineMenMorrisRules() {
         gameplan = new int[25]; // zeroes
-        bluemarker = 5;
-        redmarker = 5;
+        bluemarker = 9;
+        redmarker = 9;
         turn = RED_MOVES;
         canRemove = false;
     }
@@ -196,12 +196,12 @@ public class NineMenMorrisRules implements Serializable {
         return bluemarker <= 0 && redmarker <= 0 && countMarker < 3;
     }
 
-    public int[] getBoard(){
+    public int[] getBoard() {
         return gameplan;
     }
 
-    public int getColorOfPos(int pos){
-        return gameplan[pos-1];
+    public int getColorOfPos(int pos) {
+        return gameplan[pos - 1];
     }
 
 
