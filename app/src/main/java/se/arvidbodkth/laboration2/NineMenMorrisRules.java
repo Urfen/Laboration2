@@ -164,7 +164,7 @@ public class NineMenMorrisRules implements Serializable {
      * Returns true if the marker where successfully removed
      */
     public boolean clearSpace(int From, int color) {
-        if (canRemove == true) {
+        if (canRemove) {
             if (color != turn && color != EMPTY_SPACE && !remove(From)) {
                 gameplan[From] = EMPTY_SPACE;
                 canRemove = false;
@@ -193,10 +193,7 @@ public class NineMenMorrisRules implements Serializable {
                 countMarker++;
             count++;
         }
-        if (bluemarker <= 0 && redmarker <= 0 && countMarker < 3)
-            return true;
-        else
-            return false;
+        return bluemarker <= 0 && redmarker <= 0 && countMarker < 3;
     }
 
     public int[] getBoard(){
@@ -229,9 +226,7 @@ public class NineMenMorrisRules implements Serializable {
     }
 
     public boolean markersLeft(int color) {
-        if (color == BLUE_MOVES && bluemarker > 0) return true;
-        if (color == RED_MOVES && redmarker > 0) return true;
-        return false;
+        return color == BLUE_MOVES && bluemarker > 0 || color == RED_MOVES && redmarker > 0;
     }
 
     /**
@@ -327,8 +322,7 @@ public class NineMenMorrisRules implements Serializable {
     public Object readFile(Context context) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = context.openFileInput("state");
         ObjectInputStream in = new ObjectInputStream(fileIn);
-        Object state = in.readObject();
-        return state;
+        return in.readObject();
     }
 
     //Attempts to write a file
@@ -338,7 +332,6 @@ public class NineMenMorrisRules implements Serializable {
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(state);
         out.close();
-        System.out.println(state.getModel().getBoard().toString());
         fileOut.close();
     }
 

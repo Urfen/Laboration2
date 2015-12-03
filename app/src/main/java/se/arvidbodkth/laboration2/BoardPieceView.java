@@ -55,7 +55,7 @@ public class BoardPieceView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawCircle((float) px + (ph - px) / 2, (float) py + (pw - py) / 2, 40, rectPaint);
+        canvas.drawCircle((float) px + (ph - px) / 2, (float) py + (pw - py) / 2,(pw - py)/5, rectPaint);
     }
 
     public void setColor(int color){

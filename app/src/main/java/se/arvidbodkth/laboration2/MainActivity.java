@@ -77,37 +77,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_save ) {
-            State state = new State(model);
-            try{
-                model.writeFile(this.getApplicationContext(), state);
-                showToast("Saved");
-            } catch(IOException e){
-                e.printStackTrace();
-                showToast("FAILED TO WRITE TO FILE!");
-            }
-            return true;
-        }
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_load) {
-            try{
-                State state = (State) model.readFile(this.getApplicationContext());
-                model = state.getModel();
-                view.initGame(model.getBoard());
-                view.rePaint();
-
-                showToast("LOAD");
-            } catch(IOException e){
-                e.printStackTrace();
-                //showToast("ERROR FAILED TO READ FROM FILE!");
-            } catch(ClassNotFoundException c){
-                showToast("FILE NOT FOUND!");
-            }
-            return true;
-        }
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_restart) {
             model = new NineMenMorrisRules();
             view = new BoardView(this, this);

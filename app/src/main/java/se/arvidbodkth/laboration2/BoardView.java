@@ -35,7 +35,7 @@ public class BoardView extends View {
         // Get a representation of the image
         //Haje mattias
         Resources resources = context.getResources();
-        gameboard = (Drawable) resources.getDrawable(R.drawable.gameboard);
+        gameboard = resources.getDrawable(R.drawable.gameboard);
 
         gamePieces = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class BoardView extends View {
             int stepH = getHeight()/7;
             int stepV = getWidth()/7;
             System.out.println("stepH: "+stepH);
-            int row = 4;
+            int row;
             int position = 1;
 
 
@@ -128,10 +128,10 @@ public class BoardView extends View {
 
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setTextSize((gamePieces.get(8).getPx()- gamePieces.get(7).getPx())/4);
-        canvas.drawText("Turn:", 45*getRight()/100, 45*getBottom()/100, paint);
+        paint.setTextSize((gamePieces.get(8).getPx() - gamePieces.get(7).getPx()) / 4);
+        canvas.drawText("Turn:", 45 * getRight() / 100, 45 * getBottom() / 100, paint);
 
-        canvas.drawCircle((float) getRight() / 2, (float) getBottom() / 2, 40, currentTurn);
+        canvas.drawCircle((float) canvas.getWidth() / 2, (float) canvas.getHeight() / 2, (getHeight() / 7) / 5, currentTurn);
     }
 
     public void paintEmptyPiece(int pos, int color){
