@@ -8,10 +8,11 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 /**
- * Created by Arvid och Mattias  on 2015-11-30.
+ * Created by Arvid Bodin och Mattias Grehnic on 2015-11-30.
  *
+ * This class is a custom view for the gameBoard. It contains
+ * creates and inits the BoardPieceWiew dots.
  */
 public class BoardPieceView extends View {
 
@@ -20,10 +21,21 @@ public class BoardPieceView extends View {
     private int ph;
     private int pw;
     private int pos;
+
     private Rect rect;
 
     private Paint rectPaint;
 
+    /**
+     * Construkcor for the gamePiece.
+     * @param context the context.
+     * @param x coordinate.
+     * @param y coordinate.
+     * @param h coordinate.
+     * @param w coordinate.
+     * @param pos the position number.
+     * @param color the color of the pice.
+     */
     public BoardPieceView(Context context,int x, int y, int h, int w, int pos, int color) {
         super(context);
         this.px = x;
@@ -32,16 +44,21 @@ public class BoardPieceView extends View {
         this.pw = w;
         this.pos = pos;
 
+        //Create the rect tha is the hitpox of the piece.
         rect = new Rect(px,py,ph,pw);
         rectPaint = new Paint();
 
+        //Paint the color.
         if(color == 0) rectPaint.setColor(Color.BLACK);
-        //Reversed, the models is done.
         if(color == 1 || color == 4) rectPaint.setColor(Color.BLUE);
         if(color == 2 || color == 5) rectPaint.setColor(Color.RED);
     }
 
-
+    /**
+     *
+     * @param event
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -82,33 +99,4 @@ public class BoardPieceView extends View {
     public int getPx() {
         return px;
     }
-
-    public void setPx(int px) {
-        this.px = px;
-    }
-
-    public int getPy() {
-        return py;
-    }
-
-    public void setPy(int py) {
-        this.py = py;
-    }
-
-    public int getPh() {
-        return ph;
-    }
-
-    public void setPh(int ph) {
-        this.ph = ph;
-    }
-
-    public int getPw() {
-        return pw;
-    }
-
-    public void setPw(int pw) {
-        this.pw = pw;
-    }
-
 }

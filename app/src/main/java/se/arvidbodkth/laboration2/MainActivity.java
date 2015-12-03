@@ -2,7 +2,6 @@ package se.arvidbodkth.laboration2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,38 +12,54 @@ public class MainActivity extends AppCompatActivity {
 
     private NineMenMorrisRules model;
     private BoardView view;
-
     private int from;
 
+    /**
+     * Executes when the app starts from being destroy. Init's the model
+     * and view.
+     * @param savedInstanceState reference to a Bundle object.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        //Init the model and view.
         model = new NineMenMorrisRules();
         view = new BoardView(this, this);
+
+        //Set the content to the custom view.
         setContentView(view);
+
         from = 0;
     }
 
+    /**
+     * Executes when the app starts from being stopped. Loads the
+     * last save file in to the view.
+     */
     @Override
     protected void onStart() {
         super.onStart();
         try {
+            //Load the file and save it to a new model
             State state = (State) model.readFile(this.getApplicationContext());
             model = state.getModel();
 
+            //Update the model and view
             initGameFromFile(model.getBoard());
-
             view.invalidate();
+
         } catch (IOException e) {
-            e.printStackTrace();
-            //showToast("ERROR FAILED TO READ FROM FILE!");
+            showToast("ERROR FAILED TO READ FROM FILE!");
         } catch (ClassNotFoundException c) {
             showToast("FILE NOT FOUND!");
         }
     }
 
+    /**
+     * Executes when the app is not in focus any more. Saves the current
+     * model to file.
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -57,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Executes when the app is destroyed. aves the current
+     * model to file.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -69,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Opens the toolbar when hit.
+     * @param menu the meny style
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,19 +100,27 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Executes when an item in the toolbar is hit.
+     * @param item the list of items.
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        //Get the item id's
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //If the item that was hit is the restart item.
         if (id == R.id.action_restart) {
+            //Reset the game buy creating new clean
+            //models and views.
             model = new NineMenMorrisRules();
             view = new BoardView(this, this);
+
+            //Set the content to the new clean view.
             setContentView(view);
 
+            //Redraw.
             view.invalidate();
             return true;
         }
@@ -96,21 +128,50 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Sets the color of the gamePieces when a file is loaded.
+     * @param gameState the loaded int array with the color
+     *                  information.
+     */
     private void initGameFromFile(int[] gameState) {
         for (int i = 1; i < view.getGamePieces().size() - 1; i++) {
-            System.out.println("gameState " + gameState[i] + " i: " + i);
+            //Takes the color value from gameState from the loaded
+            //file and give the right piece that color.
             view.getGamePieces().get(i).setColor(gameState[i + 1]);
         }
     }
 
+    /**
+     * Get the int value for the color of a given position.
+     * @param pos the position to get the color of.
+     * @return int color of that pos
+     */
     public int getColorOfPos(int pos) {
         return model.getColorOfPos(pos);
     }
 
+    /**
+     * get the int value for the vurrent turn.
+     * @return int of the current turn.
+     */
     public int getTurn() {
         return model.getTurn();
     }
 
+
+    /**
+     * Shows a toast on with the message given in msg.
+     * @param msg the string to be shown.
+     */
+    private void showToast(String msg) {
+        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    /**
+     *
+     * @param pos
+     */
     public void placePiece(int pos) {
 
         placeMarkerAndRemove(pos);
@@ -124,11 +185,11 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(model.toString());
     }
 
-    private void showToast(String msg) {
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
+    /**
+     *
+     * @param pos
+     * @return
+     */
     public boolean checkIfRemovable(int pos) {
         if (model.getCanRemove()) {
             if (!model.clearSpace(pos, view.getColorOfPos(pos))) {
@@ -146,6 +207,10 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     *
+     * @param pos
+     */
     public void placeMarker(int pos) {
         if (model.markersLeft(model.getTurn()) && view.getColorOfPos(pos) == 0) {
             from = 0;
@@ -195,6 +260,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @param pos
+     */
     public void placeMarkerAndRemove(int pos) {
         if (checkIfRemovable(pos)) return;
         placeMarker(pos);

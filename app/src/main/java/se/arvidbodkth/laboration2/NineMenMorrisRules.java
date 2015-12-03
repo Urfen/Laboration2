@@ -1,7 +1,6 @@
 package se.arvidbodkth.laboration2;
 
 import android.content.Context;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,6 +11,8 @@ import java.io.Serializable;
 /**
  * @author Jonas Wåhslén, jwi@kth.se.
  *         Revised by Anders Lindström, anderslm@kth.se
+ *
+ *      Modifyed by Arvid Bodin and Mattias Grehning.
  */
 
 /*
@@ -40,6 +41,11 @@ public class NineMenMorrisRules implements Serializable {
 
     private boolean canRemove;
 
+    /**
+     * Constructor of the model. Creates the array of ints
+     * that represents the places on the gameBoard. Also the
+     * number of markers foe each player, the starting turn.
+     */
     public NineMenMorrisRules() {
         gameplan = new int[25]; // zeroes
         bluemarker = 9;
@@ -196,35 +202,65 @@ public class NineMenMorrisRules implements Serializable {
         return bluemarker <= 0 && redmarker <= 0 && countMarker < 3;
     }
 
+    /**
+     * Returns the bord array.
+     * @return gamePlan[]
+     */
     public int[] getBoard() {
         return gameplan;
     }
 
+    /**
+     * Return the color of a given poition.
+     * @param pos the position to get the color of.
+     * @return the color.
+     */
     public int getColorOfPos(int pos) {
         return gameplan[pos - 1];
     }
 
-
+    /**
+     * Get the color of the marker of the current turn.
+     * @param turn the turn to get color of.
+     * @return color.
+     */
     public int getMarkerColor(int turn) {
         if (turn == BLUE_MOVES) return BLUE_MARKER;
         if (turn == RED_MOVES) return RED_MARKER;
         else return 0;
     }
 
+    /**
+     * Get the current turn.
+     * @return turn
+     */
     public int getTurn() {
         return turn;
     }
 
+    /**
+     * Set the turn to the next turn.
+     */
     public void nextTurn() {
         if (turn == BLUE_MOVES) turn = RED_MOVES;
         else turn = BLUE_MOVES;
     }
 
+    /**
+     * Get teh last turn.
+     * @return the last turn.
+     */
     public int getLastTurn() {
         if (turn == BLUE_MOVES) return RED_MOVES;
         else return BLUE_MOVES;
     }
 
+    /**
+     * Get the number of the remaining markers of a given
+     * player.
+     * @param color the color of the player.
+     * @return number of markers left.
+     */
     public boolean markersLeft(int color) {
         return color == BLUE_MOVES && bluemarker > 0 || color == RED_MOVES && redmarker > 0;
     }
@@ -289,20 +325,35 @@ public class NineMenMorrisRules implements Serializable {
         return false;
     }
 
+    /**
+     * Get if a piece can be removed.
+     * @return can be removed.
+     */
     public boolean getCanRemove() {
         return canRemove;
     }
 
+    /**
+     * Set if a piece can be removed.
+     * @param canRemove if it can be removed.
+     */
     public void setCanRemove(boolean canRemove) {
         this.canRemove = canRemove;
     }
 
+    /**
+     * Get the number of markers left of the current turn
+     * @return number of markers left.
+     */
     public int getNoOfMarkers() {
         if (turn == RED_MOVES) return redmarker;
         else return bluemarker;
     }
 
-
+    /**
+     * Get a string with the ints in the gamePlan.
+     * @return string with gamePlan.
+     */
     public String toString() {
         String gameplanString = "";
         for (int i = 0; i < gameplan.length; i++) {
@@ -312,22 +363,35 @@ public class NineMenMorrisRules implements Serializable {
         return gameplanString;
     }
 
+    /**
+     * Get the string of the current turn.
+     * @return string of the current turn.
+     */
     public String turnToString() {
         if (turn == RED_MOVES) return "Red";
         else return "Blue";
     }
 
-
-    //Attempts to read the saved file
+    /**
+     * Load a file from a set file name.
+     * @param context the context
+     * @return the read object
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Object readFile(Context context) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = context.openFileInput("state");
         ObjectInputStream in = new ObjectInputStream(fileIn);
         return in.readObject();
     }
 
-    //Attempts to write a file
+    /**
+     * Write the model to a set file.
+     * @param context the context
+     * @param state the state used to save the model.
+     * @throws IOException
+     */
     public void writeFile(Context context, State state) throws IOException {
-
         FileOutputStream fileOut = context.openFileOutput("state", Context.MODE_PRIVATE);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(state);
