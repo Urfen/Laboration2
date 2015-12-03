@@ -24,7 +24,7 @@ public class BoardPieceView extends View {
 
     private Paint rectPaint;
 
-    public BoardPieceView(Context context,int x, int y, int h, int w, int pos) {
+    public BoardPieceView(Context context,int x, int y, int h, int w, int pos, int color) {
         super(context);
         this.px = x;
         this.py = y;
@@ -33,10 +33,12 @@ public class BoardPieceView extends View {
         this.pos = pos;
 
         rect = new Rect(px,py,ph,pw);
-
         rectPaint = new Paint();
-        rectPaint.setStyle(Paint.Style.FILL);
-        rectPaint.setColor(Color.BLACK);
+
+        if(color == 0) rectPaint.setColor(Color.BLACK);
+        //Reversed, the models is done.
+        if(color == 1 || color == 4) rectPaint.setColor(Color.BLUE);
+        if(color == 2 || color == 5) rectPaint.setColor(Color.RED);
     }
 
 

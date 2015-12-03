@@ -61,7 +61,9 @@ public class BoardView extends View {
             System.out.println("stepH: "+stepH);
             int row = 4;
             int position = 1;
-            currentTurn.setColor(Color.RED);
+
+            currentTurn.setColor(controller.getTurn());
+
             for (int i = 0; i < 7; i++) {
                 if(i == 3) row = 0;
                 else row = 4;
@@ -69,16 +71,16 @@ public class BoardView extends View {
                 for (int k = 0; k < 7-row; k++) {
 
                     if(i == 0 || i == 6){
-                        gamePieces.add(new BoardPieceView(super.getContext(),k*3*stepV, i*stepH,  (k*3*stepV+stepV) , (i*stepH+stepH),position++));
+                        gamePieces.add(new BoardPieceView(super.getContext(),k*3*stepV, i*stepH,  (k*3*stepV+stepV) , (i*stepH+stepH),position++,controller.getColorOfPos(position-1)));
                     }
                     if(i == 1 || i == 5){
-                        gamePieces.add(new BoardPieceView(super.getContext(), (k * 2 + 1) * stepV, i * stepH, ((k * 2 + 1) * stepV + stepV), (i * stepH + stepH),position++));
+                        gamePieces.add(new BoardPieceView(super.getContext(), (k * 2 + 1) * stepV, i * stepH, ((k * 2 + 1) * stepV + stepV), (i * stepH + stepH),position++,controller.getColorOfPos(position-1)));
                     }
                     if(i == 2 || i == 4){
-                        gamePieces.add(new BoardPieceView(super.getContext(), (k+2)*stepV, i*stepH,  ((k+2)*stepV+stepV) , (i*stepH+stepH),position++));
+                        gamePieces.add(new BoardPieceView(super.getContext(), (k+2)*stepV, i*stepH,  ((k+2)*stepV+stepV) , (i*stepH+stepH),position++,controller.getColorOfPos(position-1)));
                     }
                     if(i == 3) {
-                        if(k != 3) gamePieces.add(new BoardPieceView(super.getContext(), (k)*stepV, i*stepH,  ((k)*stepV+stepV) , (i*stepH+stepH),position++));
+                        if(k != 3) gamePieces.add(new BoardPieceView(super.getContext(), (k)*stepV, i*stepH,  ((k)*stepV+stepV) , (i*stepH+stepH),position++,controller.getColorOfPos(position-1)));
                     }
                 }
             }

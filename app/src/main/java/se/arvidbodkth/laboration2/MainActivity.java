@@ -34,11 +34,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       /* try{
+       try{
             State state = (State) model.readFile(this.getApplicationContext());
             model = state.getModel();
 
             initGameFromFile(model.getBoard());
+
+           view.invalidate();
 
             showToast("LOAD");
         } catch(IOException e){
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             //showToast("ERROR FAILED TO READ FROM FILE!");
         } catch(ClassNotFoundException c){
             showToast("FILE NOT FOUND!");
-        }*/
+        }
     }
 
     @Override
@@ -125,6 +127,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public int getColorOfPos(int pos){
+        return model.getColorOfPos(pos);
+    }
+
+    public int getTurn(){
+        return model.getTurn();
+    }
+
     public void placePiece(int pos) {
 
         placeMarkerAndRemove(pos);
@@ -148,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
             if (!model.clearSpace(pos, view.getColorOfPos(pos))) {
                 view.setCurrentTurn(model.getTurn());
                 showToast("Wrong pick!");
-                //model.setCanRemove(true);
                 return true;
             }
             showToast("!!!!! " + model.remove(pos));
@@ -212,12 +221,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void placeMarkerAndRemove(int pos){
-        //boolean flag = true;
-
-        // while(flag){
-            if(checkIfRemovable(pos)) return;
-            //flag = false;
-        //}
+        if(checkIfRemovable(pos)) return;
         placeMarker(pos);
     }
 }

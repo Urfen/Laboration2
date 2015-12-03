@@ -214,6 +214,10 @@ public class NineMenMorrisRules implements Serializable {
         else return redmarker;
     }
 
+    public int getColorOfPos(int pos){
+        return gameplan[pos-1];
+    }
+
 
     public int getMarkerColor(int turn) {
         if (turn == BLUE_MOVES) return BLUE_MARKER;
