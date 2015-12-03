@@ -1,12 +1,10 @@
 package se.arvidbodkth.laboration2;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -15,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
 
     private NineMenMorrisRules model;
     private BoardView view;
-    private TextView textView;
 
     private int from;
 
@@ -26,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         model = new NineMenMorrisRules();
         view = new BoardView(this, this);
-        textView = (TextView) findViewById(R.id.textView);
         setContentView(view);
         from = 0;
     }
@@ -115,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_restart) {
             model = new NineMenMorrisRules();
             view = new BoardView(this, this);
-            textView = (TextView) findViewById(R.id.textView);
             setContentView(view);
 
             view.invalidate();

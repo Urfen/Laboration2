@@ -202,17 +202,6 @@ public class NineMenMorrisRules implements Serializable {
     public int[] getBoard(){
         return gameplan;
     }
-    /**
-     * Returns EMPTY_SPACE = 0 BLUE_MARKER = 4 READ_MARKER = 5
-     */
-    public int board(int From) {
-        return gameplan[From];
-    }
-
-    public int getNumberOfMarkersLeft() {
-        if (turn == BLUE_MOVES) return redmarker;
-        else return redmarker;
-    }
 
     public int getColorOfPos(int pos){
         return gameplan[pos-1];

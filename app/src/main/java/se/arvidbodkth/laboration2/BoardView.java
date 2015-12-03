@@ -159,7 +159,4 @@ public class BoardView extends View {
         return gamePieces;
     }
 
-    public void setGamePieces(ArrayList<BoardPieceView> gamePieces) {
-        this.gamePieces = gamePieces;
-    }
 }
