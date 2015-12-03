@@ -113,7 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_restart) {
-            view.initGame(null);
+            model = new NineMenMorrisRules();
+            view = new BoardView(this, this);
+            textView = (TextView) findViewById(R.id.textView);
+            setContentView(view);
+
+            view.invalidate();
             return true;
         }
 
@@ -132,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getTurn(){
-        return model.getTurn();
+        return model.getMarkerColor(model.getTurn());
     }
 
     public void placePiece(int pos) {
@@ -160,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
                 showToast("Wrong pick!");
                 return true;
             }
-            showToast("!!!!! " + model.remove(pos));
             System.out.println();
             view.paintEmptyPiece(pos, 0);
             model.nextTurn();
