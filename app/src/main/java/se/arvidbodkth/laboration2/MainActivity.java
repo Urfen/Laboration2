@@ -33,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             State state = (State) model.readFile(this.getApplicationContext());
             model = state.getModel();
+
             initGameFromFile(model.getBoard());
+
             view.invalidate();
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getTurn() {
-        return model.getMarkerColor(model.getTurn());
+        return model.getTurn();
     }
 
     public void placePiece(int pos) {

@@ -131,6 +131,9 @@ public class BoardView extends View {
         paint.setTextSize((gamePieces.get(8).getPx() - gamePieces.get(7).getPx()) / 4);
         canvas.drawText("Turn:", 45 * getRight() / 100, 45 * getBottom() / 100, paint);
 
+        if(controller.getTurn() == 1) currentTurn.setColor(Color.BLUE);
+        else currentTurn.setColor(Color.RED);
+
         canvas.drawCircle((float) canvas.getWidth() / 2, (float) canvas.getHeight() / 2, (getHeight() / 7) / 5, currentTurn);
     }
 
